@@ -35,5 +35,8 @@
     <ClCompile Include="brute_force.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="divide_and_conquer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

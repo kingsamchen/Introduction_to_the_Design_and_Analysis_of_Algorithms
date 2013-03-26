@@ -11,9 +11,14 @@
 #include <ctime>
 #include <iostream>
 #include <algorithm>
+#include <cctype>
+#include <set>
 
 void PartitionElements(const int* src, size_t len);
 void BottomUpMergeSort(int* ary, int* aux, int len);
+void PartRealNum(int* ary, int len);
+void ArrangeDutchFlag(char* ary, int len);
+void MatchNutsAndBolts(char* nuts, char* bolts, int low, int high);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -29,15 +34,37 @@ void print_out(T beg, T end, const char* dem = " ")
 int _tmain(int argc, _TCHAR* argv[])
 {
     const int LEN = 20;
-    int a[LEN];
+    char a[LEN];
+    char b[LEN];
+    std::set<int> s;
     srand(time(NULL));
-    std::for_each(a, a+LEN, [=](int& n)
+    std::for_each(a, a+LEN, [&](char& ch)
     {
-        n = rand() % 100;
+        do 
+        {
+            int n = rand() % 26;
+            if (s.find(n) == s.end())
+            {
+                ch = 'a' + n;
+                s.insert(n);
+                break;
+            }
+        } while (true);
+
     });
-    int b[_countof(a)];
-    BottomUpMergeSort(a, b, _countof(a));
+    
+    std::transform(a, a + LEN, b, std::toupper);
+    std::random_shuffle(b, b + LEN);
+
+    std::cout<<"before match"<<std::endl;
     print_out(a, a+_countof(a));
+    print_out(b, b + _countof(b));
+
+    MatchNutsAndBolts(a, b, 0, LEN - 1);
+     
+    std::cout<<"after match"<<std::endl;
+    print_out(a, a+_countof(a));
+    print_out(b, b + _countof(b));
     _getch();
 	return 0;
 }

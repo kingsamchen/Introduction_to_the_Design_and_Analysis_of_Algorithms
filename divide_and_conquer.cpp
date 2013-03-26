@@ -1,12 +1,14 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/03/17
+** Date:	2013/03/26
 ** Purpose:	Chapter 4: Divide-and-Conquer Algorithms
 ************************************/
 
 #include <algorithm>
 #include <xutility>
+#include <cassert>
+#include <cctype>
 
 int FindLargeElePos(const int* ary, int l, int r)
 {
@@ -172,4 +174,114 @@ void BottomUpMergeSort(int* ary, int* aux, int len)
         //memcpy_s(ary, sizeof(int) * len, aux, sizeof(int)*len);
         std::copy(aux, aux + len, ary);
     }
+}
+
+
+// assume no zero within the array
+void PartRealNum(int* ary, int len)
+{
+    int l = 0, r = len - 1;
+
+    do 
+    {
+        while (ary[l] < 0 && l < r)
+        {
+            ++l;
+        }
+
+        while (ary[r] > 0 && l < r)
+        {
+            --r;
+        }
+
+        if (l < r)
+        {
+            std::swap(ary[l], ary[r]);
+        }
+    } while (l < r);
+}
+
+
+/*
+	Description:
+		A[0..rI] - set of R
+        A[rI+1..p-1] - set of W
+        A[p..bI-1] - set of unexplorerd
+        A[bI..len-1] - set of B
+	Parameters:
+		
+	Return Value:
+		none
+*/
+void ArrangeDutchFlag(char* ary, int len)
+{
+    int rI = -1, p = 0, bI = len;
+    while (p < bI)
+    {
+        if ('R' == ary[p])
+        {
+            std::swap(ary[++rI], ary[p++]);
+        }
+        else if ('W' == ary[p])
+        {
+            ++p;
+        }
+        else
+        {
+            std::swap(ary[p], ary[--bI]);
+        }
+    }
+}
+
+// based on every letters are definitely distinct
+int MatchPartition(char* src, char pattern, int low, int high)
+{
+    int l = low - 1;
+    int p = low;
+    auto MatchProc = [=](char s1, char s2)->int
+    {
+        char ele1 = std::toupper(s1);
+        char ele2 = std::toupper(s2);
+        
+        return ele1 - ele2;
+    };
+
+    while (p < high)
+    {
+        int diff = MatchProc(src[p], pattern);
+        if (diff < 0)
+        {
+            std::swap(src[p++], src[++l]);
+        }
+        else if (diff > 0)
+        {
+            ++p;
+        }
+        else
+        {
+            std::swap(src[p], src[high]);
+        }
+    }
+
+    std::swap(src[l+1], src[high]);
+    return l+1;
+}
+
+// assume a pair of matched nut and bolt is
+// a letter with lower-case and upper-case
+// and no letter can appear more than once
+void MatchNutsAndBolts(char* nuts, char* bolts, int low, int high)
+{
+    if (high - low < 1)
+    {
+        return;
+    }
+
+    // two indices must be the same since each pair is distinctly matched
+    int nutPiv = MatchPartition(nuts, bolts[low], low, high);
+    int boltPiv = MatchPartition(bolts, nuts[nutPiv], low, high);
+    assert(nutPiv == boltPiv);
+
+    MatchNutsAndBolts(nuts, bolts, low, nutPiv - 1);
+    MatchNutsAndBolts(nuts, bolts, nutPiv + 1, high);
 }

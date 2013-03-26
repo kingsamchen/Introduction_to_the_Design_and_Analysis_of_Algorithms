@@ -23,3 +23,12 @@ chapter 4: divide-and-conquer algorithms
 		
 	BottomUpMergeSort. ch4.1 exer 10
 		a bottom-up implementation of merge sort without recursions.
+		
+	PartRealNum. ch4.2 exer 8
+		rearrange elements of a given array of n real numbers so that its negative elements precede all its positive elements.
+		
+	ArrangeDutchFlag. ch4.2 exer 9
+		rearrange any array of characters R, W, and B, thus all R's come first, the W's come next, and the B's some last.
+		
+	MatchNutsAndBolts. ch4.2 exer 10
+		solve the match problem of a collection of n distinct nuts and bolts.

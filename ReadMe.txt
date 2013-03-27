@@ -1,5 +1,6 @@
 *All stuff contained is user-implemented algorithms depicted in the book Introduction to the Design and Analysis of Algorithms, and most of which can be considered as the candidates for solutions to exercises.
 
+*For any other solutions for exercise, please see at http://sdrv.ms/WVfgNY
 ----
 Chapter 3: brute-force approach
 	CountSpecificSubStr. ch3.2 exer 9

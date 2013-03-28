@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/03/26
+** Date:	2013/03/28
 ** Purpose:	Chapter 4: Divide-and-Conquer Algorithms
 ************************************/
 
@@ -233,6 +233,7 @@ void ArrangeDutchFlag(char* ary, int len)
     }
 }
 
+
 // based on every letters are definitely distinct
 int MatchPartition(char* src, char pattern, int low, int high)
 {
@@ -284,4 +285,80 @@ void MatchNutsAndBolts(char* nuts, char* bolts, int low, int high)
 
     MatchNutsAndBolts(nuts, bolts, low, nutPiv - 1);
     MatchNutsAndBolts(nuts, bolts, nutPiv + 1, high);
+}
+
+
+int BinSearch1st(const int* ary, int ele, int count)
+{
+    int l = -1, r = count;
+    while (l + 1 != r)
+    {
+        /* ASSERT: a[l]< e <= a[r] */
+        int mid = l + ((r - l) >> 1);
+        if (ary[mid] < ele)
+        {
+            l = mid;
+        } 
+        else
+        {
+            r = mid;
+        }
+    }
+
+    return r == count ? r - 1 : r;
+}
+
+int BinSearchLast(const int* ary, int ele, int count)
+{
+    int l = -1, r = count;
+
+    while (l + 1 != r)
+    {
+        /* ASSERT: a[l]<= e < a[r] */
+        int mid = l + ((r - l) >> 1);
+        if (ary[mid] <= ele)
+        {
+            l = mid;
+        } 
+        else
+        {
+            r = mid;
+        }
+    }
+
+    return l == -1 ? 0 : l;
+}
+
+typedef std::pair<unsigned int, unsigned int> RangePair;
+RangePair BinSearchRange(const int* ary, int L, int U, int count)
+{
+    if (L > U)
+    {
+        return std::make_pair(-1, -1);
+    }
+
+    int l = BinSearch1st(ary, L, count);
+    int r = BinSearchLast(ary, U, count);
+
+    return std::make_pair(l, r);
+}
+
+
+int BinSearch(const int* ary, int ele, int count)
+{
+    int l = 0, r = count - 1;
+    while (l < r)
+    {
+        int mid = (l + r) >> 1;
+        if (ary[mid] <= ele)
+        {
+            l = mid;
+        } 
+        else
+        {
+            r = mid - 1;
+        }
+    }
+
+    return ary[l] == ele ? l : -1;
 }

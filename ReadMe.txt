@@ -33,3 +33,9 @@ chapter 4: divide-and-conquer algorithms
 		
 	MatchNutsAndBolts. ch4.2 exer 10
 		solve the match problem of a collection of n distinct nuts and bolts.
+
+	BinSearchRange. ch4.3 exer 6
+		Find all elements in a sorted array whose values fall between two given values L and U (inclusively), L <= U
+		
+	BinarySearch. ch4.3 exer 8
+		two-way comparison version of binary-search

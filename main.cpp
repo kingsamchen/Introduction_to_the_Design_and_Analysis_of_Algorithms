@@ -19,6 +19,8 @@ void BottomUpMergeSort(int* ary, int* aux, int len);
 void PartRealNum(int* ary, int len);
 void ArrangeDutchFlag(char* ary, int len);
 void MatchNutsAndBolts(char* nuts, char* bolts, int low, int high);
+std::pair<unsigned,unsigned> BinSearchRange(const int* ary, int L, int U, int count);
+int BinSearch(const int* ary, int ele, int count);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -33,38 +35,20 @@ void print_out(T beg, T end, const char* dem = " ")
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    const int LEN = 20;
-    char a[LEN];
-    char b[LEN];
-    std::set<int> s;
-    srand(time(NULL));
-    std::for_each(a, a+LEN, [&](char& ch)
-    {
-        do 
-        {
-            int n = rand() % 26;
-            if (s.find(n) == s.end())
-            {
-                ch = 'a' + n;
-                s.insert(n);
-                break;
-            }
-        } while (true);
+    const int LEN = 10;
+    int a[LEN] = {1,3,4,5,8,12,14,32,43,89};
+    //srand(time(NULL));
+    //std::for_each(a, a+LEN, [&](int& ch)
+    //{
+    //    ch = rand() % 100;
+    //});
+    //
+    //std::sort(a, a + LEN);
 
-    });
-    
-    std::transform(a, a + LEN, b, std::toupper);
-    std::random_shuffle(b, b + LEN);
-
-    std::cout<<"before match"<<std::endl;
-    print_out(a, a+_countof(a));
-    print_out(b, b + _countof(b));
-
-    MatchNutsAndBolts(a, b, 0, LEN - 1);
-     
-    std::cout<<"after match"<<std::endl;
-    print_out(a, a+_countof(a));
-    print_out(b, b + _countof(b));
+    int p = BinSearch(a, 33, LEN);
+    print_out(a, a + LEN);
+    std::cout<<p;
+        
     _getch();
 	return 0;
 }

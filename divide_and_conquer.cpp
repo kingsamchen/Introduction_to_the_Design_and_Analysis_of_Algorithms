@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/03/28
+** Date:	2013/04/02
 ** Purpose:	Chapter 4: Divide-and-Conquer Algorithms
 ************************************/
 
@@ -9,6 +9,7 @@
 #include <xutility>
 #include <cassert>
 #include <cctype>
+#include <iostream>
 
 int FindLargeElePos(const int* ary, int l, int r)
 {
@@ -361,4 +362,64 @@ int BinSearch(const int* ary, int ele, int count)
     }
 
     return ary[l] == ele ? l : -1;
+}
+
+
+struct TreeNode
+{
+    TreeNode() : data(0), lChild(NULL), rChild(NULL) {}
+    TreeNode(int ele) : data(ele), lChild(NULL), rChild(NULL) {}
+    int data;
+    TreeNode* lChild;
+    TreeNode* rChild;
+};
+
+TreeNode* ConstructBinTree(const int* iodrSeq, const int* podrSeq, int il, int ir,
+                            int pl, int pr)
+{
+    if (il > ir)
+    {
+        return NULL;
+    }
+    else
+    {
+        int i = std::find(iodrSeq + il, iodrSeq + ir + 1, podrSeq[pr]) - iodrSeq;        
+        if (i == ir + 1)
+        {
+            std::cerr<<"ERROR: two sequences don't match"<<std::endl;
+            std::cerr<<"please call destory function to clear nodes previously created"<<std::endl;
+            return NULL;
+        }
+
+        TreeNode* node = new TreeNode(podrSeq[pr]);
+        node->lChild = ConstructBinTree(iodrSeq, podrSeq, il, i - 1, pl, pl + i - il - 1);
+        node->rChild = ConstructBinTree(iodrSeq, podrSeq, i + 1, ir, pl + i - il, pr - 1);
+
+        return node;
+    }
+}
+
+void PreOrderVisit(const TreeNode* root)
+{
+    if (root != NULL)
+    {
+        std::cout<<root->data<<" ";
+        PreOrderVisit(root->lChild);
+        PreOrderVisit(root->rChild);
+    }
+}
+
+void DestroyTree(TreeNode*& root)
+{
+    if (NULL == root)
+    {
+        return;
+    }
+    else
+    {
+        DestroyTree(root->lChild);
+        DestroyTree(root->rChild);
+        delete root;
+        root = NULL;
+    }
 }

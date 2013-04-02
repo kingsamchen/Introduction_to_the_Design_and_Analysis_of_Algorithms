@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <cctype>
 #include <set>
+#include <cassert>
 
 void PartitionElements(const int* src, size_t len);
 void BottomUpMergeSort(int* ary, int* aux, int len);
@@ -21,6 +22,10 @@ void ArrangeDutchFlag(char* ary, int len);
 void MatchNutsAndBolts(char* nuts, char* bolts, int low, int high);
 std::pair<unsigned,unsigned> BinSearchRange(const int* ary, int L, int U, int count);
 int BinSearch(const int* ary, int ele, int count);
+struct TreeNode;
+TreeNode* ConstructBinTree(const int* iodrSeq, const int* podrSeq, int il, int ir, int pl, int pr);
+void DestroyTree(TreeNode*& root);
+void PreOrderVisit(const TreeNode* root);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -36,7 +41,8 @@ void print_out(T beg, T end, const char* dem = " ")
 int _tmain(int argc, _TCHAR* argv[])
 {
     const int LEN = 10;
-    int a[LEN] = {1,3,4,5,8,12,14,32,43,89};
+    int a[] = {4,5,2,1,3,6};
+    int b[] = {5,4,2,6,3,1};
     //srand(time(NULL));
     //std::for_each(a, a+LEN, [&](int& ch)
     //{
@@ -44,11 +50,10 @@ int _tmain(int argc, _TCHAR* argv[])
     //});
     //
     //std::sort(a, a + LEN);
-
-    int p = BinSearch(a, 33, LEN);
-    print_out(a, a + LEN);
-    std::cout<<p;
-        
+    TreeNode* p = ConstructBinTree(a, b, 0, 5, 0, 5);
+    PreOrderVisit(p);
+    DestroyTree(p);
+    assert(p == NULL);
     _getch();
 	return 0;
 }

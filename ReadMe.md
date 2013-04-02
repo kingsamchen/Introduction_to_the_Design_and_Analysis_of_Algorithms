@@ -39,3 +39,7 @@ chapter 4: divide-and-conquer algorithms
 		
 	BinarySearch. ch4.3 exer 8
 		two-way comparison version of binary-search
+		
+	ConstructBinTree. ch4.4 exer 8
+		construct a binary tree by using its inorder and postorder traversal sequences.
+		

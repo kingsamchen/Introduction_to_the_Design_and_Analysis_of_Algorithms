@@ -1,9 +1,9 @@
-*All stuff contained is user-implemented algorithms depicted in the book Introduction to the Design and Analysis of Algorithms, and most of which can be considered as the candidates for solutions to exercises.
+*All stuff contained is user-implemented algorithms depicted in the book Introduction to the Design and Analysis of Algorithms, and most of which can be considered as the candidates for solutions to exercises*
 
-*For any other solutions to exercise, please see at http://sdrv.ms/WVfgNY
-----
-Chapter 3: brute-force approach
-	CountSpecificSubStr. ch3.2 exer 9
+*For any other solutions to exercise, please see at http://sdrv.ms/WVfgNY*
+
+#Chapter 3: brute-force approach
+    CountSpecificSubStr. ch3.2 exer 9
 		counting the number of substrings begnining and ending with a specified letter respectively within a given string. 
 		e.g. CABAAXBYA has 4 substrs begining with letter A and ending with letter B.
 		
@@ -11,8 +11,8 @@ Chapter 3: brute-force approach
 		partition n positive integers into two disjoint subsets with the same sum of their elements.
 		e.g. {4,2,1,8,6,9} PART I:{6,9} PART II:{4,2,1,8}
 		
-----
-chapter 4: divide-and-conquer algorithms
+
+#Chapter 4: divide-and-conquer algorithms
 	FindLargeElePos. ch4.1 exer 1
 		a divide-and-conquer algorithm for finding a position of the largest element in an array of n numbers.
 		
@@ -43,3 +43,6 @@ chapter 4: divide-and-conquer algorithms
 	ConstructBinTree. ch4.4 exer 8
 		construct a binary tree by using its inorder and postorder traversal sequences.
 		
+	FindClosestPair. ch4.6 exer 3
+		an implementation of closest-pair problem.
+

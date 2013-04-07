@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/04/02
+** Date:	2013/04/07
 ** Purpose:	Chapter 4: Divide-and-Conquer Algorithms
 ************************************/
 
@@ -423,3 +423,158 @@ void DestroyTree(TreeNode*& root)
         root = NULL;
     }
 }
+
+
+struct Point
+{
+    int x;
+    int y;
+};
+
+void CopyAddressofPoint(Point ** pptDes, const Point* ptSrc, int count)
+{
+    for (int i = 0; i < count; ++i)
+    {
+        pptDes[i] = const_cast<Point*>(&ptSrc[i]);
+    }
+}
+
+int cmpX (const void* ele1, const void* ele2)
+{
+    const Point* p1 = *reinterpret_cast<const Point**>(const_cast<void*>(ele1));
+    const Point* p2 = *reinterpret_cast<const Point**>(const_cast<void*>(ele2));
+    
+    return (p1->x - p2->x);
+}
+
+int cmpY (const void* ele1, const void* ele2)
+{
+    const Point* p1 = *reinterpret_cast<const Point**>(const_cast<void*>(ele1));
+    const Point* p2 = *reinterpret_cast<const Point**>(const_cast<void*>(ele2));
+
+    return (p1->y - p2->y);
+}
+
+#ifdef _DEBUG
+void print(Point** ary, int count)
+{
+    for (int i = 0; i < count; ++i)
+    {
+        std::cout<<ary[i]->x<<" ";
+    }
+}
+#endif // _DEBUG
+
+int Distance(const Point* px, const Point* py)
+{
+    return ((px->x - py->x) * (px->x - py->x) +
+            (px->y - py->y) * (px->y - py->y));
+}
+
+int CheckMidStrip(const Point* ptInStrip[], int count, int det)
+{
+    int dCMin = det;
+
+    for (int i = 0; i < count; ++i)
+    {
+        for (int j = i + 1; j < count; ++j)
+        {
+            int diffY = abs(ptInStrip[i]->y - ptInStrip[j]->y);
+            if (diffY > dCMin)
+            {
+                break;
+            }
+            else if (Distance(ptInStrip[i], ptInStrip[j]) < dCMin)
+            {
+                dCMin = Distance(ptInStrip[i], ptInStrip[j]);
+            }
+        }
+    }
+
+    return dCMin;
+}
+
+int Find(Point* ptX[], int xL, int xR, Point* ptY[], int ptYcount)
+{
+    if (xL >= xR)
+    {
+        return INT_MAX;
+    }
+    else if (xL + 1 == xR)
+    {
+        return Distance(ptX[xL], ptX[xR]);
+    }
+
+    /* {xL...midLine} is PL and {midLine+1...xR} is PR */
+    int midLine = xL + ((xR - xL) >> 1);
+    Point** ptYLeft = new Point*[midLine - xL + 1];
+    Point** ptYRight = new Point*[midLine - xL + 1];
+    assert(ptYLeft != NULL && ptYRight != NULL);
+    int ptYLeftCount = 0;
+    int ptYRightCount = 0;
+    int midX = ptX[midLine]->x;
+
+    // scan the Y list sequentially to partition
+    for (int i = 0; i < ptYcount; ++i)
+    {
+        if (ptY[i]->x <= midX)
+        {
+            ptYLeft[ptYLeftCount++] = ptY[i];
+        } 
+        else
+        {
+            ptYRight[ptYRightCount++] = ptY[i];
+        }
+    }
+
+    // slove recursively
+    int dL = Find(ptX, xL, midLine, ptYLeft, ptYLeftCount);
+    int dR = Find(ptX, midLine + 1, xR, ptYRight, ptYRightCount);
+    int det = std::min(dL, dR);
+
+    delete [] ptYLeft;
+    delete [] ptYRight;
+    ptYLeft = ptYRight = NULL;
+
+    // pick up the points in order of y coordinates that in strip
+    Point** ptYInStrip = new Point*[ptYcount];
+    int countInStrip = 0;
+    
+    for (int i = 0; i <ptYcount; ++i)
+    {
+        if (ptY[i]->x >= midX - det && ptY[i]->x <= midX + det)
+        {
+            ptYInStrip[countInStrip++] = ptY[i];
+        }
+    }
+
+    // compute points in the strip
+    int dC = CheckMidStrip(const_cast<const Point**>(ptYInStrip), countInStrip, det);
+
+    delete [] ptYInStrip;
+    ptYInStrip = NULL;
+
+    return std::min(dC, det);
+}
+
+double FindClosestPair(const Point* pt, int count)
+{
+    // Use ptrs to the points instead of using points directly
+    Point** ptSortByX = new Point*[count];
+    Point** ptSortByY = new Point*[count];
+    assert(ptSortByX != NULL && ptSortByY != NULL);
+    CopyAddressofPoint(ptSortByX, pt, count);
+    CopyAddressofPoint(ptSortByY, pt, count);
+
+    qsort(ptSortByX, count, sizeof(Point*), cmpX);
+    qsort(ptSortByY, count, sizeof(Point*), cmpY);
+
+    int distance = Find(ptSortByX, 0, count - 1, ptSortByY, count);
+
+    // do it later
+    delete [] ptSortByX;
+    delete [] ptSortByY;
+
+    return sqrt(static_cast<double>(distance));
+}
+

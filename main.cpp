@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/03/17
+** Date:	2013/04/07
 ** Purpose:	main
 ************************************/
 
@@ -14,18 +14,6 @@
 #include <cctype>
 #include <set>
 #include <cassert>
-
-void PartitionElements(const int* src, size_t len);
-void BottomUpMergeSort(int* ary, int* aux, int len);
-void PartRealNum(int* ary, int len);
-void ArrangeDutchFlag(char* ary, int len);
-void MatchNutsAndBolts(char* nuts, char* bolts, int low, int high);
-std::pair<unsigned,unsigned> BinSearchRange(const int* ary, int L, int U, int count);
-int BinSearch(const int* ary, int ele, int count);
-struct TreeNode;
-TreeNode* ConstructBinTree(const int* iodrSeq, const int* podrSeq, int il, int ir, int pl, int pr);
-void DestroyTree(TreeNode*& root);
-void PreOrderVisit(const TreeNode* root);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -50,10 +38,6 @@ int _tmain(int argc, _TCHAR* argv[])
     //});
     //
     //std::sort(a, a + LEN);
-    TreeNode* p = ConstructBinTree(a, b, 0, 5, 0, 5);
-    PreOrderVisit(p);
-    DestroyTree(p);
-    assert(p == NULL);
     _getch();
 	return 0;
 }

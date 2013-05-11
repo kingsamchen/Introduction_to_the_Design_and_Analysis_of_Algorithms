@@ -242,8 +242,8 @@ int MatchPartition(char* src, char pattern, int low, int high)
     int p = low;
     auto MatchProc = [=](char s1, char s2)->int
     {
-        char ele1 = std::toupper(s1);
-        char ele2 = std::toupper(s2);
+        char ele1 = static_cast<char>(std::toupper(s1));
+        char ele2 = static_cast<char>(std::toupper(s2));
         
         return ele1 - ele2;
     };

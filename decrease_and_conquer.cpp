@@ -1,14 +1,20 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/05/11
+** Date:	2013/05/14
 ** Purpose:	Chapter 5: Decrease-and-Conquer Algorithms
 ************************************/
 
+#include <algorithm>
 #include <vector>
 #include <memory>
+#include <list>
+#include <stack>
+#include <queue>
 
 using std::vector;
+using std::list;
+using std::for_each;
 
 // I think it is more elegant to code in python for this question
 /*
@@ -86,3 +92,113 @@ void ShellSort(int ary[], size_t len)
     }
 }
 
+
+// both assume the graph is connectivity
+typedef vector<list<unsigned int>> Graph;
+typedef vector<bool> Marker;
+void dfs(unsigned int begVex, const Graph& graph, Marker& visited)
+{
+    visited[begVex] = true;
+    //cout<<static_cast<char>('A' + begVex)<<" -> ";
+
+    for_each(graph[begVex].cbegin(), graph[begVex].cend(), [&](unsigned int adjVex)
+    {
+        if (!visited[adjVex])
+        {
+            dfs(adjVex, graph, visited);
+        }
+    });
+}
+
+void dfs_iter(const Graph& graph, unsigned int begVex)
+{
+    Marker visited(graph.size());
+    std::stack<unsigned int> visitedButUnexploredVex;
+    
+    visitedButUnexploredVex.push(begVex);
+    visited[begVex] = true;
+    while (!visitedButUnexploredVex.empty())
+    {
+        unsigned int curVex = visitedButUnexploredVex.top();
+        visitedButUnexploredVex.pop();
+
+        //cout<<static_cast<char>('A' + curVex)<<" -> ";
+
+        for_each(graph[curVex].cbegin(), graph[curVex].cend(), [&](unsigned int adjVex)
+        {
+            if (!visited[adjVex])
+            {
+                // avoid repeatedly add discovered but not yet explored vertices
+                visited[adjVex] = true; 
+                visitedButUnexploredVex.push(adjVex);
+            }
+        });
+    }
+}
+
+
+void bfs(const Graph& graph, unsigned int begVex)
+{
+    Marker visited(graph.size());
+    std::queue<unsigned int> visitedButUnexploredVex;
+
+    visited[begVex] = true;
+    visitedButUnexploredVex.push(begVex);
+    while (!visitedButUnexploredVex.empty())
+    {
+        unsigned int curVex = visitedButUnexploredVex.front();
+        //cout<<static_cast<char>('A' + curVex)<<" -> ";
+        for_each(graph[curVex].cbegin(), graph[curVex].cend(), [&](unsigned int adjVex)
+        {
+            if (!visited[adjVex])
+            {
+                visited[adjVex] = true;
+                visitedButUnexploredVex.push(adjVex);
+            }
+        });
+
+        visitedButUnexploredVex.pop();
+    }
+}
+
+
+bool IsBipartite(const Graph& graph, unsigned int begVex)
+{
+    Marker visited(graph.size());
+    Marker color(graph.size());
+    enum{WHITE = 0, BLACK = 1};
+    std::queue<unsigned int> visitedButUnexploredVex;
+
+    visited[begVex] = true;
+    color[begVex] = WHITE;
+    visitedButUnexploredVex.push(begVex);
+    while (!visitedButUnexploredVex.empty())
+    {
+        unsigned int curVex = visitedButUnexploredVex.front();
+        //cout<<static_cast<char>('A' + curVex)<<" -> ";
+        for (auto it = graph[curVex].cbegin(); it != graph[curVex].cend(); ++it)
+        {
+            unsigned int adjVex = *it;
+            if (visited[adjVex])
+            {
+                if (color[adjVex] == color[curVex])
+                {
+                    //printf_s("illegal edge detected at: %c and %c", 'A' + curVex, 'A' + adjVex);
+                    return false;
+                }
+            }
+            else
+            {
+                visited[adjVex] = true;
+                // next level with different color
+                color[adjVex] = !color[curVex]; 
+                visitedButUnexploredVex.push(adjVex);
+            }
+        }
+
+        visitedButUnexploredVex.pop();
+    }
+
+    //cout<<"It is a bipartite"<<endl;
+    return true;
+}

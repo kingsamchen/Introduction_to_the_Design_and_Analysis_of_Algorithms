@@ -56,3 +56,15 @@ binary insertion soring algorithm
 
 + `ShellSort ch5.1 exer 10`
 shellsort implementation
+
++ `dfs`
+a quick dfs implementation
+
++ `dfs_iter`
+non-recursive implementation
+
++ `bfs`
+a quick bfs implementation
+
++ `IsBipartite`
+check a graph is a bipartite or not

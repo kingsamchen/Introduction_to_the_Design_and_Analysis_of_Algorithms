@@ -68,3 +68,9 @@ a quick bfs implementation
 
 + `IsBipartite`
 check a graph is a bipartite or not
+
++ `TopoSort_DFS`
+a tolological-sort implementation based on DFS
+
++ `TopoSort`
+a widely applied tolological-sort implementation based on source removing strategy

@@ -47,30 +47,42 @@ construct a binary tree by using its inorder and postorder traversal sequences.
 an implementation of closest-pair problem.
 
 
-##Chapter 5: decrease-and-conquer algorithms
+##Chapter 5: decrease-and-conquer algorithms.
 + `PowerSet. ch5.1 exer 3` 
-generator power-set of a given list
+generator power-set of a given list.
 
 + `BinInsert ch5.1 exer 9`
-binary insertion soring algorithm
+binary insertion soring algorithm.
 
 + `ShellSort ch5.1 exer 10`
-shellsort implementation
+shellsort implementation.
 
 + `dfs`
-a quick dfs implementation
+a quick dfs implementation.
 
 + `dfs_iter`
-non-recursive implementation
+non-recursive implementation.
 
 + `bfs`
-a quick bfs implementation
+a quick bfs implementation.
 
 + `IsBipartite`
-check a graph is a bipartite or not
+check a graph is a bipartite or not.
 
 + `TopoSort_DFS`
-a tolological-sort implementation based on DFS
+a tolological-sort implementation based on DFS.
 
 + `TopoSort`
-a widely applied tolological-sort implementation based on source removing strategy
+a widely applied tolological-sort implementation based on source removing strategy.
+
++ `GenPermu`
+navie implementation for generating permutations. recursively apply decrease-and-conquer.
+
++ `GenPermuLexic`
+a lexical generation implementation.
+
++ `GenPermuJTrotter`
+Johnson-Trotter implementation.
+
++ `GenPowerSets`
+yet another powersets generation implementation based on one-to-one binary representation.

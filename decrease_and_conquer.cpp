@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/05/16
+** Date:	2013/05/18
 ** Purpose:	Chapter 5: Decrease-and-Conquer Algorithms
 ************************************/
 
@@ -12,6 +12,8 @@
 #include <stack>
 #include <queue>
 #include <deque>
+#include <iostream>
+#include <iterator>
 
 using std::vector;
 using std::list;
@@ -312,5 +314,185 @@ void TopoSort(const Graph& graph, deque<unsigned int>& sortedSeq)
     {
         //cout<<"Not a DAG"<<endl;
         sortedSeq.clear();
+    }
+}
+
+
+void GenPermu(int A[], int i, int n)
+{
+    if (i == n-1)
+    {
+        for (int k = 0; k < n; ++k)
+        {
+            //cout<<A[k]<<" ";
+        }
+
+        //cout<<endl;
+        return;
+    }
+    else
+    {
+        // avoid generating duplicated sequence
+        auto CheckSwapValid = [=](const int A[], int i, int j)->bool
+        {
+            for (int t = i; t < j; ++t)
+            {
+                if (A[t] == A[j])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        for (int k = i; k < n; ++k)
+        {
+            if (CheckSwapValid(A, i, k))
+            {
+                std::swap(A[k], A[i]);
+                GenPermu(A, i + 1, n);
+                std::swap(A[k], A[i]);
+            }
+        }
+    }
+}
+
+
+bool GetNextPermu(int A[], int n)
+{
+    int j = n - 2;
+    while (A[j] >= A[j+1] && j >= 0)
+    {
+        --j;
+    }   
+
+    if (j < 0)
+    {
+        //cout<<"reached last permutation in lexical order"<<endl;
+        return false;
+    }
+
+    int i = n - 1;
+    while (A[j] >= A[i])
+    {
+        --i;
+    }
+
+    std::swap(A[j], A[i]);
+
+    int l = j + 1, r = n - 1; 
+    while (l < r)
+    {
+        std::swap(A[l], A[r]);
+        ++l;
+        --r;
+    }
+
+    return true;
+}
+
+void GenPermuLexic(int ary[], size_t len)
+{
+    // ary will be modified.
+    // if this is not what your want, backup it.
+    while (GetNextPermu(ary, static_cast<int>(len)))
+    {
+        // print_outs(ary, ary + len);
+    }
+}
+
+
+void GenPermuJTrotter(int ary[], size_t len)
+{
+    //enum {LEFT = 0, RIGHT = 1};
+    vector<bool> arrowDirec(len);
+    
+    auto FindLargestMobile = [=](const int ary[], size_t len,
+                                 const vector<bool>& flag,
+                                 int& largMobileIdx)->bool
+    {
+        int largest = -1; // sentinal
+        for (unsigned int i = 0; i < len; ++i)
+        {
+            if (!flag[ary[i]-1])    // LEFT arrow
+            {
+                if (0 == i)
+                {
+                    continue;
+                }
+                else if (ary[i] > ary[i-1] && (largest == -1 || ary[i] > ary[largest]))
+                {
+                    largest = i;
+                }
+            } 
+            else
+            {
+                if (i == len - 1)
+                {
+                    continue;
+                }
+                else if (ary[i] > ary[i+1] && (largest == -1 || ary[i] > ary[largest]))
+                {
+                    largest = i;
+                }
+            }
+        }
+
+        largMobileIdx = largest;
+        return largest != -1 ? true : false;
+    };
+
+    int largestMobileIdx = -1;
+
+    // 1st permutation
+    //print_out(ary, ary + len);
+    while (FindLargestMobile(ary, len, arrowDirec, largestMobileIdx))
+    {
+        // swap mobile and its arrow direction adjacent
+        if (arrowDirec[ary[largestMobileIdx]-1]) // RIGHT arrow
+        {
+            std::swap(ary[largestMobileIdx], ary[largestMobileIdx+1]);
+            ++largestMobileIdx;
+        }
+        else
+        {
+            std::swap(ary[largestMobileIdx], ary[largestMobileIdx-1]);
+            --largestMobileIdx;
+        }
+
+        for_each(ary, ary + len, [&](int ele)
+        {
+            if (ele > ary[largestMobileIdx])
+            {
+                arrowDirec[ele-1] = !arrowDirec[ele-1];
+            }
+        });
+
+        //print_out(ary, ary + len);
+    }
+}
+
+
+void GenPowerSets(const int ary[], size_t len)
+{
+    unsigned int endBinRep = (1U << len);
+    vector<int> genedSet;
+    genedSet.reserve(len >> 1);
+
+    std::cout<<"EMPTY"<<std::endl;
+    for (unsigned int binRep = 1U; binRep < endBinRep; ++binRep)
+    {
+        for (unsigned int i = 0U; i < len; ++i)
+        {
+            if ((1U << i) & binRep)
+            {
+                genedSet.push_back(ary[i]);
+            } 
+        }
+
+        std::copy(genedSet.cbegin(), genedSet.cend(), std::ostream_iterator<int>(std::cout, " "));
+        std::cout<<std::endl;
+        genedSet.clear();                  
     }
 }

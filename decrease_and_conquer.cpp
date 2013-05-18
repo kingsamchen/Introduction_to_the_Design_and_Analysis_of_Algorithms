@@ -483,6 +483,8 @@ void GenPowerSets(const int ary[], size_t len)
     std::cout<<"EMPTY"<<std::endl;
     for (unsigned int binRep = 1U; binRep < endBinRep; ++binRep)
     {
+        // theoritically can be optimized by using BSR instruction
+        // to avoid checking bits that are never could be used in this round
         for (unsigned int i = 0U; i < len; ++i)
         {
             if ((1U << i) & binRep)
@@ -494,5 +496,41 @@ void GenPowerSets(const int ary[], size_t len)
         std::copy(genedSet.cbegin(), genedSet.cend(), std::ostream_iterator<int>(std::cout, " "));
         std::cout<<std::endl;
         genedSet.clear();                  
+    }
+}
+
+
+void BitString(size_t n, vector<unsigned int>& bin)
+{
+    if (0 == n)
+    {
+        std::copy(bin.cbegin(), bin.cend(), std::ostream_iterator<unsigned int>(std::cout, " "));
+        std::cout<<std::endl;
+    }
+    else
+    {
+        bin[n-1] = 0;
+        BitString(n-1, bin);
+        
+        bin[n-1] = 1;
+        BitString(n-1, bin);
+    }
+}
+
+
+void GenCombination(vector<unsigned int>& combin, size_t first, size_t last, size_t k)
+{
+    if (k == 0)
+    {
+        std::copy(combin.cbegin(), combin.cend(), std::ostream_iterator<unsigned>(std::cout, " "));
+        std::cout<<std::endl;
+    } 
+    else
+    {
+        for (size_t i = first; i <= last - k + 1; ++i)
+        {
+            combin[k-1] = i;
+            GenCombination(combin, i + 1, last, k - 1);
+        }
     }
 }

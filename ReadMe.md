@@ -86,3 +86,9 @@ Johnson-Trotter implementation.
 
 + `GenPowerSets`
 yet another powersets generation implementation based on one-to-one binary representation.
+
++ `BitString`
+generate binary representation
+
++ `GenCombination`
+generate k-combination from n elements

@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/05/18
+** Date:	2013/05/20
 ** Purpose:	Chapter 5: Decrease-and-Conquer Algorithms
 ************************************/
 
@@ -533,4 +533,35 @@ void GenCombination(vector<unsigned int>& combin, size_t first, size_t last, siz
             GenCombination(combin, i + 1, last, k - 1);
         }
     }
+}
+
+
+// Russian Peasant Method Multiplication
+int RPMMul(int n, int m)
+{
+    if (1 == n)
+    {
+        return m;
+    } 
+    else if (n & 1)
+    {
+        return RPMMul((n - 1) >> 1, m << 1) + m;
+    }
+    else
+    {
+        return RPMMul(n >> 1, m << 1);
+    }
+}
+
+
+int LogFloor(unsigned int n)
+{
+    int i = 0;
+    while (n > 1)
+    {
+        n >>= 1;
+        ++i;
+    }
+
+    return i;
 }

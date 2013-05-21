@@ -92,3 +92,9 @@ generate binary representation
 
 + `GenCombination`
 generate k-combination from n elements
+
++ `RPMMul`
+Russian Peasant Method Multiplication
+
++ `LogFloor`
+a decrease-and-conquer implementation for solving floor of log base 2

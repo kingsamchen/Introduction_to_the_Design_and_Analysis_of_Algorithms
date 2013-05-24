@@ -98,3 +98,9 @@ Russian Peasant Method Multiplication
 
 + `LogFloor`
 a decrease-and-conquer implementation for solving floor of log base 2
+
++ `KthSmallestEle`
+implementation to a classic problem
+
++ `InterpolationSearch`
+yet another interesting search algorithm. average running time is O(loglogn)

@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/05/20
+** Date:	2013/05/24
 ** Purpose:	Chapter 5: Decrease-and-Conquer Algorithms
 ************************************/
 
@@ -14,6 +14,7 @@
 #include <deque>
 #include <iostream>
 #include <iterator>
+#include <cassert>
 
 using std::vector;
 using std::list;
@@ -564,4 +565,85 @@ int LogFloor(unsigned int n)
     }
 
     return i;
+}
+
+
+int Partition(int a[], int left, int right)
+{
+    int piv = a[left];
+    int l = left, r = right + 1;
+ 
+    do
+    {
+        do 
+        {
+            ++l;
+        } while (a[l] < piv && l < r);
+ 
+        do 
+        {
+            --r;
+        } while (a[r] > piv);
+ 
+        if (l < r)
+        {
+            std::swap(a[l], a[r]);
+        }
+    }while (l < r);
+ 
+    std::swap(a[left], a[r]);
+    return r;
+}
+
+int KthSmallestEle(int ary[], int l, int r, int k)
+{
+    assert(l + 1 <= k && k <= r + 1);
+    int s = Partition(ary, l, r);
+    if (1 + s == k)
+    {
+        return ary[s];
+    }
+    else if (1 + s < k)
+    {
+        return KthSmallestEle(ary, s + 1, r, k);
+    } 
+    else
+    {
+        return KthSmallestEle(ary, l, s - 1, k);
+    }
+}
+
+
+int InterpolationSearch(const int ary[], size_t len, int key)
+{
+    int l = 0, r = len - 1;
+
+    while (l <= r)
+    {
+        // the line may be horizon, thus no valid slope
+        int detY = ary[r] - ary[l];
+        if (detY == 0)
+        {
+            return ary[l] == key ? l : -1;
+        } 
+        else
+        {
+            // guess a possible index based on built line equation
+            int x = (key - ary[l]) * (r - l) / detY + l;
+            if (ary[x] == key)
+            {
+                return x;
+            }
+            else if (ary[x] < key)
+            {
+                l = x + 1;
+            }
+            else
+            {
+                r = x - 1;
+            }
+        }
+    }
+
+    return -1;
 }

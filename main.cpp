@@ -42,14 +42,15 @@ void print_out(T beg, T end, const char* dem = " ")
 
 int _tmain()
 {
-    const int LEN = 25;
-    std::random_device rd;
-    for (int i = 0; i < 5; ++i)
-    {
-        unsigned int k = rd() % 100;
-        std::cout<<"k="<<k<<" logfloor:"<<LogFloor(k)<<std::endl;
-    }
-    int a[] = {1,2,3,4};
+    //const int LEN = 25;
+    //std::random_device rd;
+    //for (int i = 0; i < 5; ++i)
+    //{
+    //    unsigned int k = rd() % 100;
+    //    std::cout<<"k="<<k<<" logfloor:"<<LogFloor(k)<<std::endl;
+    //}
+    //int a[] = {1,2,3,4};
+    std::cout<<-1 / 2;
     _getch();
 	return 0;
 }

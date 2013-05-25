@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/05/24
+** Date:	2013/05/25
 ** Purpose:	Chapter 5: Decrease-and-Conquer Algorithms
 ************************************/
 
@@ -611,6 +611,34 @@ int KthSmallestEle(int ary[], int l, int r, int k)
     {
         return KthSmallestEle(ary, l, s - 1, k);
     }
+}
+
+
+int KthSmallestEleIter(int ary[], size_t len, int k)
+{
+    assert(k >= 1 && k <= static_cast<int>(len));
+    int l = 0, r = len - 1;
+    int index = -1;
+    while (l <= r)
+    {
+        int s = Partition(ary, l, r);
+        if (s + 1 == k)
+        {
+            index = s;
+            break;
+        }
+        else if (s + 1 < k)
+        {
+            l = s + 1;
+        } 
+        else
+        {
+            r = s - 1;
+        }
+    }
+
+    assert(index != -1);
+    return ary[index];
 }
 
 

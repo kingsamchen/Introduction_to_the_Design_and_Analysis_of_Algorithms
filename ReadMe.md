@@ -102,5 +102,8 @@ a decrease-and-conquer implementation for solving floor of log base 2
 + `KthSmallestEle`
 implementation to a classic problem
 
++ `KthSmallestEleIter`
+an iterative version implementation
+
 + `InterpolationSearch`
 yet another interesting search algorithm. average running time is O(loglogn)

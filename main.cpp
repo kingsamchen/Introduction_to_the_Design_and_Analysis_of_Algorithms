@@ -27,7 +27,7 @@ void BitString(size_t n, vector<unsigned int>& bin);
 void GenCombination(vector<unsigned int>& combin, size_t first, size_t last, size_t k);
 int RPMMul(int n, int m);
 int LogFloor(unsigned int n);
-
+int KthSmallestEleIter(int ary[], size_t len, int k);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -49,8 +49,11 @@ int _tmain()
     //    unsigned int k = rd() % 100;
     //    std::cout<<"k="<<k<<" logfloor:"<<LogFloor(k)<<std::endl;
     //}
-    //int a[] = {1,2,3,4};
-    std::cout<<-1 / 2;
+    int a[] = {4,7,2,8,3,9,6,13,10};
+    for (int i = 1; i <= _countof(a); ++i)
+    {
+        std::cout<<KthSmallestEleIter(a, _countof(a), i)<<std::endl;    
+    }
     _getch();
 	return 0;
 }

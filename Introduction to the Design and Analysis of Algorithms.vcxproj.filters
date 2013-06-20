@@ -38,6 +38,9 @@
     <ClCompile Include="decrease_and_conquer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="transform_and_conquer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md">

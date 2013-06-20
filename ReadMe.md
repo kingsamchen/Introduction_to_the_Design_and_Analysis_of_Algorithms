@@ -107,3 +107,11 @@ an iterative version implementation
 
 + `InterpolationSearch`
 yet another interesting search algorithm. average running time is O(loglogn)
+
+
+##Chapter 6: transform-and-conquer algorithms.
++ `IsElementUnique` ex.1
+check whether elements of an array is unique.
+
++ `ComputeMode` ex.2
+obtain the mode of an array.

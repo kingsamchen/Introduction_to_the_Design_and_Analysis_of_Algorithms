@@ -19,15 +19,8 @@
 
 using std::vector;
 
-void BinInsert(vector<int>& ary);
-void ShellSort(int ary[], size_t len);
-void GenPermuJTrotter(int ary[], size_t len);
-void GenPowerSets(const int ary[], size_t len);
-void BitString(size_t n, vector<unsigned int>& bin);
-void GenCombination(vector<unsigned int>& combin, size_t first, size_t last, size_t k);
-int RPMMul(int n, int m);
-int LogFloor(unsigned int n);
-int KthSmallestEleIter(int ary[], size_t len, int k);
+bool IsElementUnique(int ary[], size_t len);
+int ComputeMode(int ary[], size_t len);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -49,11 +42,8 @@ int _tmain()
     //    unsigned int k = rd() % 100;
     //    std::cout<<"k="<<k<<" logfloor:"<<LogFloor(k)<<std::endl;
     //}
-    int a[] = {4,7,2,8,3,9,6,13,10};
-    for (int i = 1; i <= _countof(a); ++i)
-    {
-        std::cout<<KthSmallestEleIter(a, _countof(a), i)<<std::endl;    
-    }
+    int a[] = {4,7,13,2,8,3,9,6,13,10,10};
+    std::cout<<ComputeMode(a, _countof(a));
     _getch();
 	return 0;
 }

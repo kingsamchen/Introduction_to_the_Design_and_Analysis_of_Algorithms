@@ -115,3 +115,12 @@ check whether elements of an array is unique.
 
 + `ComputeMode` ex.2
 obtain the mode of an array.
+
++ `Intersection` exer. 3
+return intersection of two sets.
+
++ `FindSumMatch` exer. 9
+check if two elements in an array that have their sum equal to a specified value.
+
++ `MaximumOverlappedIntervals` exer. 10
+find maximum number of overlapped intervals.

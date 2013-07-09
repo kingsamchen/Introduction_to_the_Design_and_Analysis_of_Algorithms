@@ -124,3 +124,6 @@ check if two elements in an array that have their sum equal to a specified value
 
 + `MaximumOverlappedIntervals` exer. 10
 find maximum number of overlapped intervals.
+
++ `SolveLinearEquationSystem`
+based on Gauss-Elimination algorithm.

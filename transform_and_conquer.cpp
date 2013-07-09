@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/06/21
+** Date:	2013/07/10
 ** Purpose:	chapter 6: Transform-and-Conquer Algorithms
 ************************************/
 
@@ -134,3 +134,45 @@ def MaximumOverlappedIntervals(intervals):
 
     return m
 */
+
+/*
+def SolveLinearEquationSystem(coeffMatrix, valVector):
+    # create the augmented matrix
+    augMatrix = []
+    for i in range(0, len(coeffMatrix)):
+        augMatrix.append(coeffMatrix[i] + [valVector[i]])
+    
+    for i in range(0, len(augMatrix) - 1):
+        # find row containing largest ith col ele then swap with row i
+        # ensure scaling factor will never exceed 1
+        # otherwise, round-off error may be bring about due to different magnitude order
+        # in subsequent subtraction operations
+        pivot = i
+        for t in range(i + 1, len(augMatrix)):
+            if abs(augMatrix[t][i]) > abs(augMatrix[pivot][i]):
+                pivot = t
+
+        if pivot != i:
+            augMatrix[i], augMatrix[pivot] = augMatrix[pivot], augMatrix[i]
+
+        for j in range(i + 1, len(augMatrix)):
+            # assume a[i,i] is non-zero
+            tmp = augMatrix[j][i] / augMatrix[i][i] 
+            for k in range(i, len(augMatrix[0])):
+                augMatrix[j][k] -= augMatrix[i][k] * tmp
+
+    #backward substitution
+    solVector = [0] * len(augMatrix)
+    for p in range(0, len(augMatrix)):
+        i = len(augMatrix) - 1 - p
+        tmp = 0.0
+        for t in range(i + 1, len(augMatrix)):
+            k = len(augMatrix) + i - t
+            tmp += augMatrix[i][k] * solVector[k]
+
+        solVector[i] = (augMatrix[i][-1] - tmp) / augMatrix[i][i]
+
+    return solVector
+*/
+
+

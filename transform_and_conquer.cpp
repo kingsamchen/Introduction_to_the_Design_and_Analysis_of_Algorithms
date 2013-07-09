@@ -163,11 +163,9 @@ def SolveLinearEquationSystem(coeffMatrix, valVector):
 
     #backward substitution
     solVector = [0] * len(augMatrix)
-    for p in range(0, len(augMatrix)):
-        i = len(augMatrix) - 1 - p
+    for i in [j for j in range(0, len(augMatrix))][::-1]:
         tmp = 0.0
-        for t in range(i + 1, len(augMatrix)):
-            k = len(augMatrix) + i - t
+        for k in [j for j in range(i + 1, len(augMatrix))][::-1]:
             tmp += augMatrix[i][k] * solVector[k]
 
         solVector[i] = (augMatrix[i][-1] - tmp) / augMatrix[i][i]

@@ -1,13 +1,14 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/07/10
+** Date:	2013/07/20
 ** Purpose:	chapter 6: Transform-and-Conquer Algorithms
 ************************************/
 
 #include <algorithm>
 #include <vector>
 #include <tuple>
+#include <cstdio>
 
 using std::vector;
 using std::pair;
@@ -173,4 +174,185 @@ def SolveLinearEquationSystem(coeffMatrix, valVector):
     return solVector
 */
 
+struct Node
+{
+    Node(int val, int hei) : value(val), height(hei),
+                             parent(nullptr), children()
+    {
+    }
 
+    int value;
+    Node* children[2];
+    Node* parent;
+    int height;
+};
+
+#if _DEBUG
+void VisitTree(const Node* root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+
+    printf_s("value: %d height: %d\n", root->value, root->height);
+    VisitTree(root->children[0]);
+    VisitTree(root->children[1]);
+}
+#endif
+
+inline int NodeHeight(const Node* node)
+{
+    if (nullptr == node)
+    {
+        return -1;
+    } 
+    else
+    {
+        return node->height;
+    }
+}
+
+/*
+	Description:
+		recalculates height (a bottom-up way) of all nodes on the path 
+        where new node was through and returns first unbalanced node
+	Parameters:
+		nodeInserted[in,out] - newly inserted node
+	Return Value:
+		null if no balance property violated
+        pointer of the first unbalanced node
+*/
+Node* EvaluateBalance(Node* nodeInserted)
+{
+    Node* curr = nodeInserted;
+    Node* unbalancedNode = nullptr;
+
+    if (curr->parent && !(curr->parent->children[0] && curr->parent->children[1]))
+    {
+        while (curr = curr->parent)
+        {
+            curr->height++;
+        
+            // check balance factor only if no unbalanced node found
+            if (nullptr == unbalancedNode)
+            {
+                int balanceDiff = NodeHeight(curr->children[0]) - 
+                                  NodeHeight(curr->children[1]);
+                if (2 == balanceDiff || -2 == balanceDiff)
+                {
+                    unbalancedNode = curr;
+                }
+            }
+        }
+    }
+    
+    return unbalancedNode;
+}
+
+// insert a node into the tree
+pair<Node*, bool> Insert(int ele, Node*& root)
+{
+    // when loop terminates, currPos points to the position where
+    // new node should be placed
+    Node* parent = nullptr;
+    Node** currPos = &root;
+    while (*currPos != nullptr)
+    {
+        parent = *currPos;
+        if (ele < (*currPos)->value)
+        {
+            currPos = &(*currPos)->children[0];
+        } 
+        else if (ele > (*currPos)->value)
+        {
+            currPos = &(*currPos)->children[1];
+        }
+        else
+        {
+            // element already exists
+            return make_pair(*currPos, false);
+        }
+    }
+
+    Node* node = new Node(ele, 0);
+    *currPos = node;
+    node->parent = parent;
+
+    // recalculate height and check balance factor of each node on the path
+    Node* unb = EvaluateBalance(node);
+    
+    //TODO: employ rotations to gain rebalance
+    if (unb != nullptr)
+    {
+        // root-pivot left skew
+        if (NodeHeight(unb->children[0]) > NodeHeight(unb->children[1]))
+        {
+            Node* unbPiv = unb->children[0];
+            if (NodeHeight(unbPiv->children[0]) > NodeHeight(unbPiv->children[1]))
+            {
+                // LL skew
+                printf_s("node %d and %d LL skew\n", unb->value, unbPiv->value);
+            } 
+            else
+            {
+                // LR skew
+                printf_s("node %d and %d LR skew\n", unb->value, unbPiv->value);
+            }
+        }
+        else    // root-pivot right skew
+        {
+            Node* unbPiv = unb->children[1];
+            if (NodeHeight(unbPiv->children[0]) < NodeHeight(unbPiv->children[1]))
+            {
+                // RR
+                printf_s("node %d and %d RR skew\n", unb->value, unbPiv->value);
+            } 
+            else
+            {
+                // RL
+                printf_s("node %d and %d RL skew\n", unb->value, unbPiv->value);
+            }
+        }
+    }
+
+    return make_pair(node, true);
+}
+
+Node* ConstructAVLTree(const int ary[], size_t len)
+{
+    Node* tree = nullptr;
+    for (size_t i = 0; i < len; ++i)
+    {
+        Insert(ary[i], tree);
+    }
+
+    return tree;
+}
+
+void RotateLeft(Node* node)
+{
+
+}
+
+void RotateRight(Node* node)
+{
+
+}
+
+void DestroyAVLTree(Node*& root)
+{
+    if (nullptr == root)
+    {
+        return;
+    }
+
+    Node* leftSubtreeRoot = root->children[0];
+    Node* rightSubtreeRoot = root->children[1];
+
+    delete root;
+    root = nullptr;
+
+    DestroyAVLTree(leftSubtreeRoot);
+    DestroyAVLTree(rightSubtreeRoot);
+}

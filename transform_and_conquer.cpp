@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/07/20
+** Date:	2013/07/23
 ** Purpose:	chapter 6: Transform-and-Conquer Algorithms
 ************************************/
 
@@ -9,6 +9,7 @@
 #include <vector>
 #include <tuple>
 #include <cstdio>
+#include <cassert>
 
 using std::vector;
 using std::pair;
@@ -16,6 +17,7 @@ using std::tuple;
 using std::sort;
 using std::make_pair;
 using std::make_tuple;
+using std::max;
 
 bool IsElementUnique(int ary[], size_t len)
 {
@@ -195,8 +197,8 @@ void VisitTree(const Node* root)
         return;
     }
 
-    printf_s("value: %d height: %d\n", root->value, root->height);
     VisitTree(root->children[0]);
+    printf_s("value: %d height: %d\n", root->value, root->height);
     VisitTree(root->children[1]);
 }
 #endif
@@ -211,6 +213,11 @@ inline int NodeHeight(const Node* node)
     {
         return node->height;
     }
+}
+
+inline int BalanceFactor(const Node* node)
+{
+    return NodeHeight(node->children[0]) - NodeHeight(node->children[1]);
 }
 
 /*
@@ -237,8 +244,7 @@ Node* EvaluateBalance(Node* nodeInserted)
             // check balance factor only if no unbalanced node found
             if (nullptr == unbalancedNode)
             {
-                int balanceDiff = NodeHeight(curr->children[0]) - 
-                                  NodeHeight(curr->children[1]);
+                int balanceDiff = BalanceFactor(curr);
                 if (2 == balanceDiff || -2 == balanceDiff)
                 {
                     unbalancedNode = curr;
@@ -248,6 +254,76 @@ Node* EvaluateBalance(Node* nodeInserted)
     }
     
     return unbalancedNode;
+}
+
+// adjust node height bottom-up
+inline void AdjustTreeHeight(Node* from)
+{
+    Node* curr = from;
+    while (curr != nullptr)
+    {
+        curr->height = max(NodeHeight(curr->children[0]), NodeHeight(curr->children[1]))
+                       + 1;
+        curr = curr->parent;
+    }
+}
+
+/*
+    P and S are reffered as follows
+       +P
+       / \
+     +S   B
+     / \
+    A   C
+    |
+    D
+*/
+
+enum{LEFT = 0U, RIGHT = 1U};
+
+void Rotate(Node* node, Node*& root, unsigned int direction)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+
+    unsigned int otherSide = !direction;
+    Node* p = node;
+    Node* s = p->children[otherSide];
+    assert(s != nullptr);
+
+    s->parent = p->parent;
+
+    if (p->parent != nullptr)
+    {
+        int pIdx = p->parent->children[0] == p ? 0 : 1;
+        p->parent->children[pIdx] = s;
+    }
+    else
+    {
+        assert(root == p);
+        root = s;
+    }
+
+    p->parent = s;
+    p->children[otherSide] = s->children[direction];
+
+    if (s->children[direction] != nullptr)
+    {
+        s->children[direction]->parent = p;
+    }
+
+    s->children[direction] = p;
+
+    // updating order is crutial and mustn't be swapped
+    p->height = max(NodeHeight(p->children[0]), NodeHeight(p->children[1]))
+                + 1;
+    s->height = max(NodeHeight(s->children[0]), NodeHeight(s->children[1]))
+                + 1;
+
+    // adjust height of nodes on the path
+    AdjustTreeHeight(s->parent);
 }
 
 // insert a node into the tree
@@ -282,36 +358,38 @@ pair<Node*, bool> Insert(int ele, Node*& root)
     // recalculate height and check balance factor of each node on the path
     Node* unb = EvaluateBalance(node);
     
-    //TODO: employ rotations to gain rebalance
+    // employ rotations to gain rebalance
     if (unb != nullptr)
     {
         // root-pivot left skew
-        if (NodeHeight(unb->children[0]) > NodeHeight(unb->children[1]))
+        if (BalanceFactor(unb) > 0)
         {
             Node* unbPiv = unb->children[0];
-            if (NodeHeight(unbPiv->children[0]) > NodeHeight(unbPiv->children[1]))
+            if (BalanceFactor(unbPiv) > 0)
             {
                 // LL skew
-                printf_s("node %d and %d LL skew\n", unb->value, unbPiv->value);
+                Rotate(unb, root, RIGHT);
             } 
             else
             {
                 // LR skew
-                printf_s("node %d and %d LR skew\n", unb->value, unbPiv->value);
+                Rotate(unbPiv, root, LEFT);
+                Rotate(unb, root, RIGHT);
             }
         }
         else    // root-pivot right skew
         {
             Node* unbPiv = unb->children[1];
-            if (NodeHeight(unbPiv->children[0]) < NodeHeight(unbPiv->children[1]))
+            if (BalanceFactor(unbPiv) < 0)
             {
                 // RR
-                printf_s("node %d and %d RR skew\n", unb->value, unbPiv->value);
+                Rotate(unb, root, LEFT);
             } 
             else
             {
                 // RL
-                printf_s("node %d and %d RL skew\n", unb->value, unbPiv->value);
+                Rotate(unbPiv, root, RIGHT);
+                Rotate(unb, root, LEFT);
             }
         }
     }
@@ -328,16 +406,6 @@ Node* ConstructAVLTree(const int ary[], size_t len)
     }
 
     return tree;
-}
-
-void RotateLeft(Node* node)
-{
-
-}
-
-void RotateRight(Node* node)
-{
-
 }
 
 void DestroyAVLTree(Node*& root)

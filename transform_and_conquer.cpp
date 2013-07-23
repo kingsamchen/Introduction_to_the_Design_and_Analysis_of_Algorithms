@@ -18,6 +18,7 @@ using std::sort;
 using std::make_pair;
 using std::make_tuple;
 using std::max;
+using std::swap;
 
 bool IsElementUnique(int ary[], size_t len)
 {
@@ -423,4 +424,100 @@ void DestroyAVLTree(Node*& root)
 
     DestroyAVLTree(leftSubtreeRoot);
     DestroyAVLTree(rightSubtreeRoot);
+}
+
+// the code about heap element deletion was extracted from
+// Priority_Queue project along with some modifications
+// and may have few unknown bugs
+inline int parent(int pos)
+{
+    return ((pos + 1) >> 1) - 1;
+}
+
+inline int left(int pos)
+{
+    return (pos << 1) + 1;
+}
+
+inline int right(int pos)
+{
+    return (pos + 1) << 1;
+}
+
+void MaintainTopDown(int pos, int* heap, int len)
+{
+    assert(pos >= 0 && pos < len);
+
+    bool isMaintained = false;
+    int posChecking = pos;
+    int val = heap[posChecking];
+
+    while (!isMaintained && left(posChecking) < len)
+    {
+        int j = left(posChecking);
+        if (j < len - 1 && heap[j] < heap[j+1])
+        {
+            ++j;
+        }
+
+        // tweak positions
+        if (val < heap[j])
+        {
+            heap[posChecking] = heap[j];
+            posChecking = j;
+        }
+        else
+        {
+            isMaintained = true;
+        }
+    }
+
+    heap[posChecking] = val;
+}
+
+void MaintainBottomUp(int pos, int* heap, int len)
+{
+    assert(pos >= 0 && pos < len);
+
+    int posChecking = pos;
+    int val = heap[posChecking];
+
+    while (posChecking > 0 && 
+            heap[parent(posChecking)] < heap[posChecking])
+    {
+        heap[posChecking] = heap[parent(posChecking)];
+        posChecking = parent(posChecking);
+    }
+
+    heap[posChecking] = val;
+}
+
+void DeleteEleFromHeap(int ele, int* heap, int& len)
+{
+    int i = 0;
+    for (; i < len; ++i)
+    {
+        if (heap[i] == ele)
+        {
+            break;
+        }
+    }
+
+    if (i == len)
+    {
+        return;
+    }
+
+    swap(heap[i], heap[len-1]);
+
+    --len;
+
+    if (heap[parent(i)] < heap[i])
+    {
+        MaintainBottomUp(i, heap, len);
+    } 
+    else
+    {
+        MaintainTopDown(i, heap, len);
+    }
 }

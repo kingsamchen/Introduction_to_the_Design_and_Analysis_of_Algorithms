@@ -127,3 +127,9 @@ find maximum number of overlapped intervals.
 
 + `SolveLinearEquationSystem`
 based on Gauss-Elimination algorithm.
+
++ `AVLTree Construction`
+construct an AVL tree from an array
+
++ `HeapElementDelete`
+delete an arbitrary elmeent in a heap

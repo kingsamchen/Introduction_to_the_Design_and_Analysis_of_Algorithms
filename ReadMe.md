@@ -133,3 +133,9 @@ construct an AVL tree from an array
 
 + `HeapElementDelete`
 delete an arbitrary elmeent in a heap
+
++ `Horner`
+Horner's Rule demostration
+
++ `Exp` ch6.5 exer. 8
+an efficient and non-recursive exponentiation algorithm

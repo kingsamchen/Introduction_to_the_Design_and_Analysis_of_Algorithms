@@ -521,3 +521,32 @@ void DeleteEleFromHeap(int ele, int* heap, int& len)
         MaintainTopDown(i, heap, len);
     }
 }
+
+int Horner(const int coef[], size_t len, int x)
+{
+    int p = coef[len-1];
+    for (int i = len - 2; i >= 0; --i)
+    {
+        p = p * x + coef[i];
+    }
+
+    return p;
+}
+
+// non-recursive and O(logn)
+int Exp(int a, int n)
+{
+    int p = 1, t = a;
+    while (n > 0)
+    {
+        if (n & 1U)
+        {
+            p *= t;
+        }
+
+        t *= t;
+        n >>= 1;
+    }
+
+    return p;
+}

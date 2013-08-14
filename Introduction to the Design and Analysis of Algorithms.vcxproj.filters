@@ -41,6 +41,9 @@
     <ClCompile Include="transform_and_conquer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="space_and_time_tradeoffs.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.md">

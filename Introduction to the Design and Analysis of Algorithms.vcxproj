@@ -82,6 +82,7 @@
     <ClCompile Include="decrease_and_conquer.cpp" />
     <ClCompile Include="divide_and_conquer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="space_and_time_tradeoffs.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

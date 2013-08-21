@@ -19,6 +19,8 @@
 #include <random>
 #include <tuple>
 #include <crtdbg.h>
+#include <string>
+#include <unordered_map>
 
 using std::vector;
 using std::tuple;
@@ -26,6 +28,8 @@ using std::pair;
 using std::cout;
 using std::endl;
 using std::map;
+using std::string;
+using std::unordered_map;
 
 void XorSwap(int& x, int& y);
 void SortSequnce(vector<int>& src);
@@ -42,13 +46,15 @@ bool IsAncestry(const Node* node1, const Node* node2,
                 const map<int,int>& preordSeq, const map<int,int>& postordSeq);
 Node* ConstructAVLTree(const int ary[], size_t len);
 void DestroyAVLTree(Node*& root);
+int HorspoolMatching(const string& str, const string& pattern);
+vector<int> InitGoodCharShiftTbl(const string& pattern);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
 {
     for (auto it = beg; it != end; ++it)
     {
-        std::cout<<it<<dem;
+        std::cout<<*it<<dem;
     }
 
     std::cout<<std::endl;
@@ -63,8 +69,11 @@ int _tmain()
     //    unsigned int k = rd() % 100;
     //    std::cout<<"k="<<k<<" logfloor:"<<LogFloor(k)<<std::endl;
     //}
-    int ary[] = {6,4,2,5,8,7,9};
-
+    //int ary[] = {6,4,2,5,8,7,9};
+    string text = "JIM SAW ME IN A BARBERSHOP";
+    string pattern = "GCAGAGAG";
+    vector<int> gcst = InitGoodCharShiftTbl(pattern);
+    print_out(gcst.cbegin(), gcst.cend());
     _getch();
 	return 0;
 }

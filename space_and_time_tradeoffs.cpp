@@ -16,6 +16,7 @@ using std::map;
 using std::pair;
 using std::string;
 using std::unordered_map;
+using std::max;
 
 // all elements in src range from 0 to k
 void CountingSort(vector<int>& src, unsigned int k)
@@ -273,4 +274,49 @@ vector<int> InitGoodCharShiftTbl(const string& pattern)
     }
 
     return gcShiftTbl;
+}
+
+int BM(const string& text, const string& pattern)
+{
+    auto bcShiftTbl = InitBadCharShiftTbl(pattern);
+    auto gcShiftTbl = InitGoodCharShiftTbl(pattern);
+
+    int TEXT_LEN = text.size();
+    int PATTERN_LEN = pattern.size();
+
+    int i = PATTERN_LEN - 1;
+    while (i < TEXT_LEN)
+    {
+        int matchedCnt = 0;
+        while (matchedCnt < PATTERN_LEN &&
+               pattern[PATTERN_LEN-1-matchedCnt] == text[i-matchedCnt])
+        {
+            ++matchedCnt;
+        }
+
+        // found
+        if (matchedCnt == PATTERN_LEN)
+        {
+            return i - PATTERN_LEN + 1;
+        } 
+        else
+        {
+            int bcTblVal = Tbl(bcShiftTbl, PATTERN_LEN, text[i]);
+            int bcShiftCnt = max(1, bcTblVal - matchedCnt);
+
+            int shiftCnt = 0;
+            if (matchedCnt == 0)
+            {
+                shiftCnt = bcShiftCnt;
+            } 
+            else
+            {
+                shiftCnt = max(bcShiftCnt, gcShiftTbl[PATTERN_LEN-1-matchedCnt]);
+            }
+
+            i += shiftCnt;
+        }
+    }
+
+    return -1;
 }

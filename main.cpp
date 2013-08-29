@@ -31,23 +31,8 @@ using std::map;
 using std::string;
 using std::unordered_map;
 
-void XorSwap(int& x, int& y);
-void SortSequnce(vector<int>& src);
-void SortSequenceInPlace(vector<int>& src);
-inline void SetAssign(int val, int* src, size_t len, size_t idx,
-                      int* iniEleSeq, int* eleIniSeq);
-inline bool IsInitialized(const int* src, size_t len, size_t idx,
-                          const int* iniEleSeq, const int* eleIniSeq);
-struct Node;
-void OrderPreProcess(const Node* root,
-                     map<int,int>& preordSeq,
-                     map<int,int>& postordSeq);
-bool IsAncestry(const Node* node1, const Node* node2,
-                const map<int,int>& preordSeq, const map<int,int>& postordSeq);
-Node* ConstructAVLTree(const int ary[], size_t len);
-void DestroyAVLTree(Node*& root);
-int HorspoolMatching(const string& str, const string& pattern);
-vector<int> InitGoodCharShiftTbl(const string& pattern);
+int Binomial(int n, int k);
+int Binomial2(int n, int k);
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -70,10 +55,10 @@ int _tmain()
     //    std::cout<<"k="<<k<<" logfloor:"<<LogFloor(k)<<std::endl;
     //}
     //int ary[] = {6,4,2,5,8,7,9};
-    string text = "JIM SAW ME IN A BARBERSHOP";
-    string pattern = "GCAGAGAG";
-    vector<int> gcst = InitGoodCharShiftTbl(pattern);
-    print_out(gcst.cbegin(), gcst.cend());
+    for (int i = 0; i <= 5; ++i)
+    {
+        cout<<Binomial2(5,i)<<"\t";
+    }
     _getch();
 	return 0;
 }

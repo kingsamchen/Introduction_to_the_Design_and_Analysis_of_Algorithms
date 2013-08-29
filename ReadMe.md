@@ -15,6 +15,7 @@
 > done
 
 ##Chapter 7: space-and-time tradeoffs.
-> still working on
-> 7.1 done
-> 7.2 done
+> done
+
+##Chapter 8: dynamic programming.
+> 8.1 working on

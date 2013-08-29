@@ -81,6 +81,7 @@
     <ClCompile Include="brute_force.cpp" />
     <ClCompile Include="decrease_and_conquer.cpp" />
     <ClCompile Include="divide_and_conquer.cpp" />
+    <ClCompile Include="dynamic_programming.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="space_and_time_tradeoffs.cpp" />
     <ClCompile Include="stdafx.cpp">

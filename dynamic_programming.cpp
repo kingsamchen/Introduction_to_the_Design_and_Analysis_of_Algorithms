@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/08/29
+** Date:	2013/09/27
 ** Purpose:	Chapter 8: Dynamic Programming
 ************************************/
 
@@ -72,4 +72,50 @@ int Binomial2(int n, int k)
     delete [] buf;
 
     return val;
+}
+
+/*
+	brief:
+		obtain transitive closure from its adjacent matrix
+	param:
+		m[in,out] - an adjacent matrix
+        len[in]   - matrix length 
+	return:
+		none
+*/
+void TransitiveClosure(int* m, int len)
+{
+    for (int k = 0; k < len; ++k)
+    {
+        for (int i = 0; i < len; ++i)
+        {
+            for (int j = 0; j < len; ++j)
+            {
+                m[i*len+j] = m[i*len+j] | (m[i*len+k] & m[k*len+j]);
+            }
+        }
+    }
+}
+
+/*
+	brief:
+		calculate all-pair shortest path
+	param:
+		m[in,out] - an adjacent matrix
+        len[in]   - matrix length 
+	return:
+		none
+*/
+void FloydAllPairShortestPath(int* m, int len)
+{
+    for (int k = 0; k < len; ++k)
+    {
+        for (int i = 0; i < len; ++i)
+        {
+            for (int j = 0; j < len; ++j)
+            {
+                m[i*len+j] = min(m[i*len+j], m[i*len+k] + m[k*len+j]);
+            }
+        }
+    }
 }

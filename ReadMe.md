@@ -2,6 +2,8 @@
 
 *For any other solutions to exercise, please see at http://sdrv.ms/WVfgNY*
 
+*I have decided to stop providing remaining solutions due to some personal reasons*
+
 ##Chapter 3: brute-force approach
 > done
 
@@ -18,4 +20,6 @@
 > done
 
 ##Chapter 8: dynamic programming.
-> 8.1 working on
+> 8.1 done
+> 8.2 done
+

@@ -20,6 +20,4 @@
 > done
 
 ##Chapter 8: dynamic programming.
-> 8.1 done
-> 8.2 done
-
+> done

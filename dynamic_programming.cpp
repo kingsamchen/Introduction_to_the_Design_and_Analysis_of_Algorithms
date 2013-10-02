@@ -1,7 +1,7 @@
 /************************************
 ** Edition:	Demo
 ** Author:	Kingsley Chen	
-** Date:	2013/09/27
+** Date:	2013/10/02
 ** Purpose:	Chapter 8: Dynamic Programming
 ************************************/
 
@@ -10,6 +10,7 @@
 
 using std::vector;
 using std::min;
+using std::max;
 
 int Binomial(int n, int k)
 {
@@ -118,4 +119,27 @@ void FloydAllPairShortestPath(int* m, int len)
             }
         }
     }
+}
+
+int Knapsack(const vector<int>& v, const vector<int>& w, int W)
+{
+    int n = v.size();
+    vector<int> V((n + 1) * (W + 1));
+
+    for (int i = 1; i <= n; ++i)
+    {
+        for (int j = 1; j <= W; ++j)
+        {
+            if (j - w[i-1] < 0)
+            {
+                V[i*(W+1)+j] = V[(i-1)*(W+1)+j];
+            } 
+            else
+            {
+                V[i*(W+1)+j] = max(V[(i-1)*(W+1)+j], v[i-1] + V[(i-1)*(W+1)+(j-w[i-1])]);
+            }
+        }
+    }
+
+    return V.back();
 }

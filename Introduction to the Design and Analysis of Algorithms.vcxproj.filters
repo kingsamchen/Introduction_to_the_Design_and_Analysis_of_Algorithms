@@ -21,6 +21,9 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="priorityqueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +48,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dynamic_programming.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="greedy_technique.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

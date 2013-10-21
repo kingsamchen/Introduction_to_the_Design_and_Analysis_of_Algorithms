@@ -21,3 +21,7 @@
 
 ##Chapter 8: dynamic programming.
 > done
+
+##Chapter 9: Greedy Algorithms
+> ch9.1 done
+> ch9.3 done

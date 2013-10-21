@@ -21,6 +21,7 @@
 #include <crtdbg.h>
 #include <string>
 #include <unordered_map>
+#include "priorityqueue.h"
 
 using std::vector;
 using std::tuple;
@@ -31,9 +32,7 @@ using std::map;
 using std::string;
 using std::unordered_map;
 
-int Binomial(int n, int k);
-int Binomial2(int n, int k);
-int Knapsack(const vector<int>& v, const vector<int>& w, int W);
+int Test();
 
 template<typename T>
 void print_out(T beg, T end, const char* dem = " ")
@@ -55,12 +54,7 @@ int _tmain()
     //    unsigned int k = rd() % 100;
     //    std::cout<<"k="<<k<<" logfloor:"<<LogFloor(k)<<std::endl;
     //}
-    //int ary[] = {6,4,2,5,8,7,9};
-    int val[] = {25,20,15,40,50};
-    vector<int> v(val, val+5);
-    int wei[] = {3,2,1,4,5}; 
-    vector<int> w(wei, wei + 5);
-    cout<<Knapsack(v, w, 6);
+    cout<<Test();
     _getch();
 	return 0;
 }

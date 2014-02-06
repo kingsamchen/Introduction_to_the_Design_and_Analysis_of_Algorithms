@@ -238,6 +238,82 @@ int Kruskal(vector<edge>& graph, int vexCnt)
     return cnt;
 }
 
+// functor
+struct CmpNode
+{
+    bool operator() (const Node* ele1, const Node* ele2)
+    {
+        return ele1->weight > ele2->weight;
+    }
+};
+ 
+ 
+Node* ConstructHuffmanTree(const Node leaves[], int count)
+{
+    using namespace std;
+ 
+    // copy the root of each character into the priority queue
+    // in the order of weight
+    priority_queue<Node*, vector<Node*>, CmpNode> prioRoot;
+    for (int i = 0; i < count; ++i)
+    {
+        Node* tmpLeaf = new Node;
+        *tmpLeaf = leaves[i];
+        prioRoot.push(tmpLeaf);
+    }
+ 
+    // construct huffman tree
+    while (prioRoot.size() >= 2)
+    {
+        Node* child1 = pop_que(prioRoot);
+        Node* child2 = pop_que(prioRoot);
+        Node* newRoot = new Node;
+        assert(newRoot != NULL);
+ 
+        newRoot->weight = child1->weight + child2->weight;
+        newRoot->c = 0;
+        newRoot->left = child1;
+        newRoot->right = child2;
+ 
+        prioRoot.push(newRoot);
+    }
+ 
+    return prioRoot.top();
+}
+ 
+ 
+void DestroyHuffmanTree(Node* root)
+{
+    if (!root)
+    {
+        return;
+    }
+ 
+    Node* left = root->left;
+    Node* right = root->right;
+    delete root;
+ 
+    DestroyHuffmanTree(left);
+    DestroyHuffmanTree(right);  
+}
+ 
+void GenerateHuffmanCode(const Node* root, vector<pair<char, string> >& code,
+                        char* codeBuff, int depth)
+{
+    // leaf node
+    if (!root->left && !root->right)
+    {
+        codeBuff[depth] = '\0';
+        code.push_back(make_pair(root->c, string(codeBuff)));
+        return;
+    }
+        
+    codeBuff[depth] = '0';
+    GenerateHuffmanCode(root->left, code, codeBuff, depth + 1);
+    codeBuff[depth] = '1';
+    GenerateHuffmanCode(root->right, code, codeBuff, depth + 1);
+}
+
 int Test()
 {
     //Edge e1[] = {{1, 3}, {3, 7}};
